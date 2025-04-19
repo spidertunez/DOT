@@ -1156,6 +1156,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
                             subtitle: widget.subtitle,
                             icon: widget.icon,
                             color: widget.color,
+                            lessonTitles: const [], // Adding empty list for lessonTitles
                           ),
                         ),
                       );
@@ -1170,6 +1171,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
                           subtitle: widget.subtitle,
                           icon: widget.icon,
                           color: widget.color,
+                          lessonTitles: const [], // Adding empty list for lessonTitles
                         ),
                       ),
                     );

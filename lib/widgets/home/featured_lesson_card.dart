@@ -46,13 +46,15 @@ class FeaturedLessonCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder:
-                    (context) => LessonDetailPage(
-                      title: lesson.title,
-                      lessons: lesson.lessons,
-                      rating: lesson.rating,
-                      icon: lesson.icon,
-                    ),
+                builder: (context) => LessonDetailPage(
+                  title: lesson.title,
+                  subtitle: lesson.title,
+                  lessons: lesson.lessons,
+                  rating: lesson.rating,
+                  icon: lesson.icon,
+                  color: AppColors.navyBlue,
+                  lessonTitles: const [],
+                ),
               ),
             );
           },

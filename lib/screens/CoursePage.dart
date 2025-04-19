@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../theme/AppColors.dart';
 
 class CoursePage extends StatelessWidget {
@@ -6,6 +7,7 @@ class CoursePage extends StatelessWidget {
   final String subtitle;
   final IconData icon;
   final Color color;
+  final List<String> lessonTitles;
 
   const CoursePage({
     super.key,
@@ -13,20 +15,17 @@ class CoursePage extends StatelessWidget {
     required this.subtitle,
     required this.icon,
     required this.color,
+    required this.lessonTitles,
   });
 
   @override
   Widget build(BuildContext context) {
-    final textColor =
-        (color == AppColors.beige ||
-                color == AppColors.lightBlue ||
-                color == AppColors.lightTeal ||
-                color == AppColors.mintGreen)
-            ? AppColors.darkGray
-            : AppColors.offWhite;
-
-    // قائمة بعناوين مناسبة للدروس حسب نوع الكورس
-    final List<String> lessonTitles = _getLessonTitles(title);
+    final textColor = (color == AppColors.beige ||
+            color == AppColors.lightBlue ||
+            color == AppColors.lightTeal ||
+            color == AppColors.mintGreen)
+        ? AppColors.darkGray
+        : AppColors.offWhite;
 
     return Scaffold(
       body: Stack(
@@ -323,10 +322,9 @@ class CoursePage extends StatelessWidget {
                             itemCount: 7,
                             itemBuilder: (context, index) {
                               // Using custom lesson titles
-                              String lessonTitle =
-                                  (index < lessonTitles.length)
-                                      ? lessonTitles[index]
-                                      : "Lesson ${index + 1}: Introduction to $title";
+                              String lessonTitle = (index < lessonTitles.length)
+                                  ? lessonTitles[index]
+                                  : "Lesson ${index + 1}: Introduction to $title";
 
                               // Setting lesson duration in a varied and logical manner
                               String duration = _getLessonDuration(index);
@@ -406,17 +404,16 @@ class CoursePage extends StatelessWidget {
                                               Container(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 3,
-                                                    ),
+                                                  horizontal: 8,
+                                                  vertical: 3,
+                                                ),
                                                 decoration: BoxDecoration(
-                                                  color:
-                                                      index < 2
-                                                          ? Colors.green
-                                                              .withOpacity(0.1)
-                                                          : color.withOpacity(
-                                                            0.1,
-                                                          ),
+                                                  color: index < 2
+                                                      ? Colors.green
+                                                          .withOpacity(0.1)
+                                                      : color.withOpacity(
+                                                          0.1,
+                                                        ),
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                 ),
@@ -427,10 +424,9 @@ class CoursePage extends StatelessWidget {
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w600,
-                                                    color:
-                                                        index < 2
-                                                            ? Colors.green
-                                                            : color,
+                                                    color: index < 2
+                                                        ? Colors.green
+                                                        : color,
                                                   ),
                                                 ),
                                               ),
@@ -443,10 +439,9 @@ class CoursePage extends StatelessWidget {
                                       width: 40,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        color:
-                                            (index < 2)
-                                                ? Colors.green.withOpacity(0.1)
-                                                : color.withOpacity(0.1),
+                                        color: (index < 2)
+                                            ? Colors.green.withOpacity(0.1)
+                                            : color.withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(40),
                                       ),
                                       child: Icon(
@@ -489,76 +484,52 @@ class CoursePage extends StatelessWidget {
         icon: Icon(Icons.play_arrow, color: textColor),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              spreadRadius: 0,
+              blurRadius: 10,
+              offset: const Offset(0, -3),
+            ),
+          ],
+        ),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            elevation: 5,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.play_circle_filled,
+                color: textColor,
+                size: 24,
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "Continue Learning",
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Montserrat',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-  }
-
-  // Function to create custom lesson titles based on course type
-  List<String> _getLessonTitles(String courseTitle) {
-    Map<String, List<String>> courseLessons = {
-      'Programming': [
-        'Programming Basics and Languages',
-        'Data Structures and Algorithms',
-        'Object-Oriented Programming (OOP)',
-        'Databases and SQL',
-        'User Interface Development',
-        'Software Testing and Quality Assurance',
-        'Comprehensive Application Project',
-      ],
-      'Design': [
-        'Design Fundamentals and Color Theory',
-        'Using Professional Design Software',
-        'User Interface Design (UI)',
-        'User Experience (UX)',
-        'Branding and Identity Design',
-        'Responsive Design and Applications',
-        'Integrated Design Project',
-      ],
-      'Marketing': [
-        'Digital Marketing Fundamentals',
-        'Social Media Strategies',
-        'Search Engine Optimization (SEO)',
-        'Email Marketing',
-        'Paid Advertising and Ad Campaigns',
-        'Data Analysis and Performance Reports',
-        'Comprehensive Marketing Strategy',
-      ],
-      'Languages': [
-        'Grammar and Pronunciation Basics',
-        'Common Vocabulary and Phrases',
-        'Conversation and Listening Skills',
-        'Advanced Reading and Writing',
-        'Culture and Cross-cultural Communication',
-        'Preparation for Standardized Tests',
-        'Advanced Conversation and Final Project',
-      ],
-      'Business': [
-        'Business Management Fundamentals',
-        'Strategic Planning and Model Building',
-        'Marketing and Business Development',
-        'Financial Management and Accounting',
-        'Human Resources Management',
-        'Entrepreneurship and Innovation',
-        'Case Study and Practical Application',
-      ],
-    };
-
-    // Attempt to find lesson titles that match the course title
-    for (var key in courseLessons.keys) {
-      if (courseTitle.contains(key)) {
-        return courseLessons[key]!;
-      }
-    }
-
-    // Default titles if no match is found
-    return [
-      'Introduction to $courseTitle',
-      'Basic Concepts',
-      'Advanced Techniques',
-      'Case Studies and Practical Applications',
-      'Strategies and Tools for $courseTitle',
-      'Challenges and Solutions in the Field',
-      'Final Applied Project',
-    ];
   }
 
   // Function to create varied and logical durations for lessons
@@ -580,20 +551,33 @@ class CoursePage extends StatelessWidget {
 // Enhanced Lesson Detail Page
 class LessonDetailPage extends StatelessWidget {
   final String title;
+  final String subtitle;
   final String lessons;
   final String rating;
   final IconData icon;
+  final Color color;
+  final List<String> lessonTitles;
 
   const LessonDetailPage({
     super.key,
     required this.title,
+    required this.subtitle,
     required this.lessons,
     required this.rating,
     required this.icon,
+    required this.color,
+    required this.lessonTitles,
   });
 
   @override
   Widget build(BuildContext context) {
+    final textColor = (color == AppColors.beige ||
+            color == AppColors.lightBlue ||
+            color == AppColors.lightTeal ||
+            color == AppColors.mintGreen)
+        ? AppColors.darkGray
+        : AppColors.offWhite;
+
     // Creating appropriate titles and descriptions for educational modules
     List<Map<String, String>> modules = _getModuleDetails(
       title,
@@ -894,7 +878,6 @@ class LessonDetailPage extends StatelessWidget {
                         const SizedBox(height: 10),
                         Text(
                           "Complete 2 out of ${int.parse(lessons.split(' ')[0])} units",
-
                           style: TextStyle(
                             fontSize: 14,
                             color: AppColors.darkGray.withOpacity(0.7),
@@ -951,15 +934,14 @@ class LessonDetailPage extends StatelessWidget {
                                       offset: const Offset(0, 2),
                                     ),
                                   ],
-                                  border:
-                                      isCompleted
-                                          ? Border.all(
-                                            color: Colors.green.withOpacity(
-                                              0.3,
-                                            ),
-                                            width: 1.5,
-                                          )
-                                          : null,
+                                  border: isCompleted
+                                      ? Border.all(
+                                          color: Colors.green.withOpacity(
+                                            0.3,
+                                          ),
+                                          width: 1.5,
+                                        )
+                                      : null,
                                 ),
                                 child: Row(
                                   children: [
@@ -967,11 +949,10 @@ class LessonDetailPage extends StatelessWidget {
                                       width: 45,
                                       height: 45,
                                       decoration: BoxDecoration(
-                                        color:
-                                            isCompleted
-                                                ? Colors.green.withOpacity(0.15)
-                                                : AppColors.lightBlue
-                                                    .withOpacity(0.15),
+                                        color: isCompleted
+                                            ? Colors.green.withOpacity(0.15)
+                                            : AppColors.lightBlue
+                                                .withOpacity(0.15),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Center(
@@ -979,10 +960,9 @@ class LessonDetailPage extends StatelessWidget {
                                           "${index + 1}",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
-                                            color:
-                                                isCompleted
-                                                    ? Colors.green
-                                                    : AppColors.navyBlue,
+                                            color: isCompleted
+                                                ? Colors.green
+                                                : AppColors.navyBlue,
                                             fontSize: 18,
                                           ),
                                         ),
@@ -1045,16 +1025,15 @@ class LessonDetailPage extends StatelessWidget {
                                               Container(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 3,
-                                                    ),
+                                                  horizontal: 8,
+                                                  vertical: 3,
+                                                ),
                                                 decoration: BoxDecoration(
-                                                  color:
-                                                      isCompleted
-                                                          ? Colors.green
-                                                              .withOpacity(0.1)
-                                                          : AppColors.navyBlue
-                                                              .withOpacity(0.1),
+                                                  color: isCompleted
+                                                      ? Colors.green
+                                                          .withOpacity(0.1)
+                                                      : AppColors.navyBlue
+                                                          .withOpacity(0.1),
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                 ),
@@ -1065,11 +1044,9 @@ class LessonDetailPage extends StatelessWidget {
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w600,
-                                                    color:
-                                                        isCompleted
-                                                            ? Colors.green
-                                                            : AppColors
-                                                                .navyBlue,
+                                                    color: isCompleted
+                                                        ? Colors.green
+                                                        : AppColors.navyBlue,
                                                   ),
                                                 ),
                                               ),
@@ -1082,21 +1059,19 @@ class LessonDetailPage extends StatelessWidget {
                                       width: 40,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        color:
-                                            isCompleted
-                                                ? Colors.green.withOpacity(0.1)
-                                                : AppColors.lightBlue
-                                                    .withOpacity(0.1),
+                                        color: isCompleted
+                                            ? Colors.green.withOpacity(0.1)
+                                            : AppColors.lightBlue
+                                                .withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(40),
                                       ),
                                       child: Icon(
                                         isCompleted
                                             ? Icons.check
                                             : Icons.play_arrow,
-                                        color:
-                                            isCompleted
-                                                ? Colors.green
-                                                : AppColors.navyBlue,
+                                        color: isCompleted
+                                            ? Colors.green
+                                            : AppColors.navyBlue,
                                         size: 25,
                                       ),
                                     ),
@@ -1116,12 +1091,13 @@ class LessonDetailPage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         decoration: BoxDecoration(
-          color: AppColors.offWhite,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.05),
+              spreadRadius: 0,
               blurRadius: 10,
               offset: const Offset(0, -3),
             ),
@@ -1130,26 +1106,26 @@ class LessonDetailPage extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.navyBlue,
+            backgroundColor: color,
             padding: const EdgeInsets.symmetric(vertical: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
             elevation: 5,
           ),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.play_circle_filled,
-                color: AppColors.offWhite,
+                color: textColor,
                 size: 24,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
                 "Continue Learning",
                 style: TextStyle(
-                  color: AppColors.offWhite,
+                  color: textColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Montserrat',
