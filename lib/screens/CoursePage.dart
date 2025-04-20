@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../theme/AppColors.dart';
+import 'package:hom/theme/Appcolors.dart';
+import './VideoLessonPage.dart';
 
 class CoursePage extends StatelessWidget {
   final String title;
@@ -468,7 +468,19 @@ class CoursePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VideoLessonPage(
+                title: title,
+                subtitle: subtitle,
+                color: color,
+                icon: icon,
+              ),
+            ),
+          );
+        },
         backgroundColor: color,
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),

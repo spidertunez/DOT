@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hom/theme/AppColors.dart';
 
 class MyCourseModel {
   final String title;

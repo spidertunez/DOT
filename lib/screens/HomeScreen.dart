@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import '../theme/AppColors.dart';
+import 'package:hom/theme/Appcolors.dart';
 import 'package:hom/animation/animation_controllers.dart';
 import 'package:hom/widgets/navigation_bar.dart';
 import 'package:hom/widgets/chat.dart';
-import 'package:hom/widgets/notifications_panel.dart'; // Import notifications panel
+import 'package:hom/widgets/notifications_panel.dart';
 import 'package:hom/models/notification_model.dart';
 import 'package:hom/models/featured_lesson_model.dart';
 import 'package:hom/models/learning_path_model.dart';
 import 'package:hom/models/my_course_model.dart';
-import 'package:hom/widgets/home/home_app_bar.dart';
-import 'package:hom/widgets/home/section_header.dart';
-import 'package:hom/widgets/home/learning_path_card.dart';
-import 'package:hom/widgets/home/featured_lesson_card.dart';
-import 'package:hom/widgets/home/loading_screen.dart';
-import 'package:hom/models/online_class_model.dart';
-import 'package:hom/widgets/home/online_class_card.dart';
+import 'package:hom/widgets/home_app_bar.dart';
+import 'package:hom/widgets/section_header.dart';
+import 'package:hom/widgets/learning_path_card.dart';
+import 'package:hom/widgets/featured_lesson_card.dart';
+import 'package:hom/widgets/loading_screen.dart';
 import 'package:hom/models/course_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -363,34 +361,6 @@ class _HomeScreenState extends State<HomeScreen>
     ),
   ];
 
-  // Sample data for online classes
-  final List<OnlineClassModel> _onlineClasses = [
-    OnlineClassModel(
-      title: 'Flutter Development',
-      instructor: 'John Doe',
-      time: 'Today, 2:00 PM',
-      duration: '2 hours',
-      icon: Icons.phone_android,
-      color: AppColors.beige,
-    ),
-    OnlineClassModel(
-      title: 'UI/UX Design',
-      instructor: 'Jane Smith',
-      time: 'Tomorrow, 10:00 AM',
-      duration: '1.5 hours',
-      icon: Icons.design_services,
-      color: AppColors.lightBlue,
-    ),
-    OnlineClassModel(
-      title: 'Web Development',
-      instructor: 'Mike Johnson',
-      time: 'Friday, 3:00 PM',
-      duration: '2.5 hours',
-      icon: Icons.web,
-      color: AppColors.beige,
-    ),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -556,24 +526,6 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
 
                   // My Courses Section
-
-                  // Online Classes Section
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SectionHeader(
-                          title: 'Online Classes',
-                          subtitle: 'Join live sessions',
-                        ),
-                        const SizedBox(height: 16),
-                        ..._onlineClasses.map(
-                          (classInfo) => OnlineClassCard(classInfo: classInfo),
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),

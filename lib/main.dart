@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hom/screens/Role_selection_screen.dart';
-
-import 'theme/AppColors.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 void main() {
   runApp(const CodingLearningApp());

@@ -1,14 +1,16 @@
+// File: instructor_screen.dart
 import 'package:flutter/material.dart';
-import '../theme/AppColors.dart';
+import 'package:hom/screens/Instructor_profile%20.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 class InstructorScreen extends StatefulWidget {
   const InstructorScreen({super.key});
 
   @override
-  State<InstructorScreen> createState() => _InstructorScreenState();
+  State createState() => _InstructorScreenState();
 }
 
-class _InstructorScreenState extends State<InstructorScreen> {
+class _InstructorScreenState extends State {
   int _selectedIndex = 0;
   bool _showNotifications = false;
   String? _selectedPdfFileName;
@@ -17,7 +19,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
   final TextEditingController _courseDescriptionController =
       TextEditingController();
   String _fileUploadStatus = '';
-
   final List<Map<String, dynamic>> _notifications = [
     {
       'title': 'New Course Enrollment',
@@ -51,7 +52,7 @@ class _InstructorScreenState extends State<InstructorScreen> {
     });
   }
 
-  // New method to show course creation dialog with file upload UI
+  // Method to show course creation dialog with file upload UI
   void _showNewCourseDialog(BuildContext context) {
     setState(() {
       _selectedPdfFileName = null;
@@ -60,7 +61,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
       _courseNameController.clear();
       _courseDescriptionController.clear();
     });
-
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
@@ -108,7 +108,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
                     ),
                   ),
                   const SizedBox(height: 12),
-
                   // PDF Upload Section (UI only)
                   InkWell(
                     onTap: () {
@@ -146,9 +145,7 @@ class _InstructorScreenState extends State<InstructorScreen> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 12),
-
                   // Video Upload Section (UI only)
                   InkWell(
                     onTap: () {
@@ -186,7 +183,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
                       ),
                     ),
                   ),
-
                   if (_fileUploadStatus.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(top: 12),
@@ -421,7 +417,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
               ),
             ),
           ),
-
           // Main Content
           SafeArea(
             child: Column(
@@ -499,7 +494,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
                     ],
                   ),
                 ),
-
                 // Main Content
                 Expanded(
                   child: SingleChildScrollView(
@@ -526,7 +520,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
                           ],
                         ),
                         const SizedBox(height: 24),
-
                         // Recent Activity Section
                         const Text(
                           "Recent Activity",
@@ -553,7 +546,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
                           AppColors.lightBlue,
                         ),
                         const SizedBox(height: 24),
-
                         // Quick Actions
                         const Text(
                           "Quick Actions",
@@ -589,7 +581,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
                           ],
                         ),
                         const SizedBox(height: 24),
-
                         // Upcoming Classes
                         const Text(
                           "Upcoming Classes",
@@ -623,7 +614,6 @@ class _InstructorScreenState extends State<InstructorScreen> {
               ],
             ),
           ),
-
           // Notifications Panel
           if (_showNotifications)
             Positioned(
@@ -728,6 +718,28 @@ class _InstructorScreenState extends State<InstructorScreen> {
             setState(() {
               _selectedIndex = index;
             });
+
+            switch (index) {
+              case 0: // Home
+                // Already on home screen, just update the index
+                break;
+              case 1: // Courses
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InstructorScreen()),
+                );
+                break;
+              case 2: // Students
+                // TODO: Implement students screen navigation
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => StudentsScreen()));
+                break;
+              case 3: // Profile
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InstructorProfile()),
+                );
+                break;
+            }
           },
           backgroundColor: Colors.transparent,
           elevation: 0,

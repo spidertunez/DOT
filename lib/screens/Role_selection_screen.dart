@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hom/screens/HomeScreen.dart';
-import 'package:hom/theme/AppColors.dart';
 import 'package:hom/animation/animation_controllers.dart';
 import 'package:hom/screens/instructor_loading_screen.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 class UserSelectionScreen extends StatefulWidget {
   const UserSelectionScreen({super.key});
@@ -13,7 +13,7 @@ class UserSelectionScreen extends StatefulWidget {
 
 class _UserSelectionScreenState extends State<UserSelectionScreen>
     with TickerProviderStateMixin, AnimationControllerMixin {
-  bool _isStudent = true;
+  bool? _isStudent;
   bool _isAnimating = false;
 
   @override
@@ -36,6 +36,16 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
   }
 
   void _navigateToHome() {
+    if (_isStudent == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a role to continue'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
     setState(() {
       _isAnimating = true;
     });
@@ -43,11 +53,9 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
     Future.delayed(const Duration(milliseconds: 500), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder:
-              (context) =>
-                  _isStudent
-                      ? const HomeScreen()
-                      : const LoadingInstructorScreen(),
+          builder: (context) => _isStudent!
+              ? const HomeScreen()
+              : const LoadingInstructorScreen(),
         ),
       );
     });
@@ -57,7 +65,7 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -158,14 +166,16 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
                               return Transform.translate(
                                 offset: Offset(
                                   0,
-                                  _isStudent ? floatingController.value * 5 : 0,
+                                  _isStudent == true
+                                      ? floatingController.value * 5
+                                      : 0,
                                 ),
                                 child: _RoleCard(
                                   title: "Student",
                                   icon: Icons.person,
                                   description:
                                       "Access courses, track progress, and connect with instructors",
-                                  isSelected: _isStudent,
+                                  isSelected: _isStudent == true,
                                   mainColor: AppColors.lightBlue,
                                   accentColor: AppColors.navyBlue,
                                   isAnimating: _isAnimating,
@@ -192,7 +202,7 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
                               return Transform.translate(
                                 offset: Offset(
                                   0,
-                                  !_isStudent
+                                  _isStudent == false
                                       ? floatingController.value * 5
                                       : 0,
                                 ),
@@ -201,7 +211,7 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
                                   icon: Icons.school,
                                   description:
                                       "Create courses, mentor students, and track engagement",
-                                  isSelected: !_isStudent,
+                                  isSelected: _isStudent == false,
                                   mainColor: AppColors.mintGreen,
                                   accentColor: AppColors.darkGray,
                                   isAnimating: _isAnimating,
@@ -284,21 +294,19 @@ class _RoleCard extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       child: Container(
         decoration: BoxDecoration(
-          color:
-              isSelected
-                  ? mainColor.withOpacity(0.9)
-                  : mainColor.withOpacity(0.4),
+          color: isSelected
+              ? mainColor.withOpacity(0.9)
+              : mainColor.withOpacity(0.4),
           borderRadius: BorderRadius.circular(24),
-          boxShadow:
-              isSelected
-                  ? [
-                    BoxShadow(
-                      color: accentColor.withOpacity(0.3),
-                      blurRadius: 15,
-                      offset: const Offset(0, 8),
-                    ),
-                  ]
-                  : [],
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: accentColor.withOpacity(0.3),
+                    blurRadius: 15,
+                    offset: const Offset(0, 8),
+                  ),
+                ]
+              : [],
           border: Border.all(
             color:
                 isSelected ? accentColor.withOpacity(0.5) : Colors.transparent,
@@ -339,10 +347,9 @@ class _RoleCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
-                  color:
-                      isSelected
-                          ? accentColor.withOpacity(0.8)
-                          : accentColor.withOpacity(0.6),
+                  color: isSelected
+                      ? accentColor.withOpacity(0.8)
+                      : accentColor.withOpacity(0.6),
                 ),
               ),
             ],

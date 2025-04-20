@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/AppColors.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 class ChatDialog extends StatefulWidget {
   const ChatDialog({super.key});
@@ -328,28 +328,24 @@ class _ChatDialogState extends State<ChatDialog> with TickerProviderStateMixin {
                   size: 14,
                 ),
               ),
-
             Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.65,
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color:
-                    isUser
-                        ? AppColors.beige.withOpacity(0.9)
-                        : AppColors.lightBlue.withOpacity(0.2),
+                color: isUser
+                    ? AppColors.beige.withOpacity(0.9)
+                    : AppColors.lightBlue.withOpacity(0.2),
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(18),
                   topRight: const Radius.circular(18),
-                  bottomLeft:
-                      isUser
-                          ? const Radius.circular(18)
-                          : const Radius.circular(4),
-                  bottomRight:
-                      isUser
-                          ? const Radius.circular(4)
-                          : const Radius.circular(18),
+                  bottomLeft: isUser
+                      ? const Radius.circular(18)
+                      : const Radius.circular(4),
+                  bottomRight: isUser
+                      ? const Radius.circular(4)
+                      : const Radius.circular(18),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -375,10 +371,9 @@ class _ChatDialogState extends State<ChatDialog> with TickerProviderStateMixin {
                     child: Text(
                       message['time'] as String,
                       style: TextStyle(
-                        color:
-                            isUser
-                                ? AppColors.darkGray.withOpacity(0.6)
-                                : AppColors.offWhite.withOpacity(0.6),
+                        color: isUser
+                            ? AppColors.darkGray.withOpacity(0.6)
+                            : AppColors.offWhite.withOpacity(0.6),
                         fontSize: 11,
                       ),
                     ),
@@ -386,7 +381,6 @@ class _ChatDialogState extends State<ChatDialog> with TickerProviderStateMixin {
                 ],
               ),
             ),
-
             if (isUser)
               Container(
                 width: 28,
@@ -442,14 +436,13 @@ class _ChatDialogState extends State<ChatDialog> with TickerProviderStateMixin {
   }
 
   Widget _buildDot(double animValue) {
-    double size =
-        6 +
+    double size = 6 +
         (4 *
             (animValue < 0
                 ? 0
                 : animValue > 1
-                ? 1
-                : animValue));
+                    ? 1
+                    : animValue));
 
     return Container(
       width: size,
@@ -547,10 +540,9 @@ class _ChatDialogState extends State<ChatDialog> with TickerProviderStateMixin {
 class ChatBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint =
-        Paint()
-          ..color = AppColors.beige.withOpacity(0.03)
-          ..style = PaintingStyle.fill;
+    final paint = Paint()
+      ..color = AppColors.beige.withOpacity(0.03)
+      ..style = PaintingStyle.fill;
 
     // Draw some subtle background elements
     for (int i = 0; i < 5; i++) {
@@ -562,11 +554,10 @@ class ChatBackgroundPainter extends CustomPainter {
     }
 
     // Draw a subtle pattern
-    final patternPaint =
-        Paint()
-          ..color = AppColors.lightBlue.withOpacity(0.02)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1;
+    final patternPaint = Paint()
+      ..color = AppColors.lightBlue.withOpacity(0.02)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
 
     for (int i = 0; i < 10; i++) {
       final path = Path();

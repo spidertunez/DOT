@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/AppColors.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 mixin AnimationControllerMixin<T extends StatefulWidget>
     on State<T>, TickerProviderStateMixin<T> {

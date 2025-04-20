@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hom/screens/Profile_screen.dart';
-import 'package:hom/theme/AppColors.dart';
 import 'package:hom/screens/HomeScreen.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -24,14 +24,12 @@ class CustomNavigationBar extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const HomeScreen()),
         );
         break;
-      case 3: // Profile
+      case 2: // Profile
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const ProfileScreen()),
         );
         break;
-
-      // يمكن إضافة المزيد من الحالات للصفحات الأخرى
     }
   }
 
@@ -75,7 +73,6 @@ class CustomNavigationBar extends StatelessWidget {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(icon: Icon(Icons.book), label: "Lessons"),
-            BottomNavigationBarItem(icon: Icon(Icons.explore), label: "Search"),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           ],
         ),

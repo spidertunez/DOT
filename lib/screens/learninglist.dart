@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hom/screens/CourseDetails.dart';
-import 'package:hom/theme/AppColors.dart';
 import 'package:hom/models/learning_path_model.dart';
 import 'package:hom/models/course_model.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 class LearningPathCoursesScreen extends StatelessWidget {
   final String title;
@@ -23,12 +23,12 @@ class LearningPathCoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.offWhite,
+      backgroundColor: AppColors.newwbb, // Using newwbb beige for background
       appBar: AppBar(
         title: Text(title),
         elevation: 0,
-        backgroundColor: color,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.bblue, // Using bblue for AppBar
+        foregroundColor: AppColors.offWhite,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,10 +37,10 @@ class LearningPathCoursesScreen extends StatelessWidget {
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: color,
+              color: AppColors.bblue, // Using bblue for header background
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.darkGray.withOpacity(0.1),
+                  color: AppColors.bblue.withOpacity(0.2),
                   offset: const Offset(0, 4),
                   blurRadius: 12,
                   spreadRadius: 0,
@@ -61,12 +61,13 @@ class LearningPathCoursesScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
+                        color: AppColors.newbeige.withOpacity(
+                            0.3), // Lighter beige for icon background
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(
                         icon,
-                        color: Colors.white,
+                        color: AppColors.offWhite,
                         size: 28,
                       ),
                     ),
@@ -78,7 +79,7 @@ class LearningPathCoursesScreen extends StatelessWidget {
                           Text(
                             subtitle,
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
+                              color: AppColors.offWhite,
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
@@ -89,14 +90,16 @@ class LearningPathCoursesScreen extends StatelessWidget {
                               Text(
                                 '${courses.length} courses available',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: AppColors
+                                      .newbeige, // Using newbeige for text
                                   fontSize: 14,
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Icon(
                                 Icons.play_circle_outline,
-                                color: Colors.white.withOpacity(0.8),
+                                color: AppColors
+                                    .newbeige, // Using newbeige for icon
                                 size: 16,
                               ),
                             ],
@@ -132,21 +135,19 @@ class LearningPathCoursesScreen extends StatelessWidget {
                 final course = courses[index];
                 return EnhancedCourseCard(
                     course: course,
-                    color: color,
+                    color: AppColors.bblue, // Using bblue as accent color
                     index: index,
                     onTap: () {
-                      // Pass all relevant course details to the CourseDetailPage
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => CourseDetailPage(
                             title: course.title,
                             subtitle: course.description,
                             icon: course.icon,
-                            color: color,
-                            // Add additional course information if needed
+                            color:
+                                AppColors.bblue, // Using bblue for detail page
                             instructor: course.instructor,
                             progress: course.progress,
-                            // You can pass more properties as needed
                           ),
                         ),
                       );
@@ -196,9 +197,10 @@ class EnhancedCourseCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18),
                 child: Container(
                   decoration: BoxDecoration(
+                    color: AppColors.offWhite,
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(
-                      color: color.withOpacity(0.1),
+                      color: AppColors.beige.withOpacity(0.3), // Beige border
                       width: 1,
                     ),
                   ),
@@ -209,7 +211,7 @@ class EnhancedCourseCard extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.offWhite,
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(18),
                           ),
@@ -220,12 +222,13 @@ class EnhancedCourseCard extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: color.withOpacity(0.15),
+                                color: AppColors.bblue
+                                    .withOpacity(0.15), // Light blue background
                                 borderRadius: BorderRadius.circular(14),
                               ),
                               child: Icon(
                                 course.icon,
-                                color: color,
+                                color: AppColors.bblue, // Blue icon
                                 size: 26,
                               ),
                             ),
@@ -240,23 +243,25 @@ class EnhancedCourseCard extends StatelessWidget {
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      color: AppColors.darkGray,
                                     ),
                                   ),
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
-                                      const Icon(
+                                      Icon(
                                         Icons.person,
                                         size: 14,
-                                        color: AppColors.darkGray,
+                                        color: AppColors.bblue
+                                            .withOpacity(0.7), // Blue icon
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
                                         course.instructor,
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: AppColors.darkGray
-                                              .withOpacity(0.7),
+                                          color: AppColors.bblue
+                                              .withOpacity(0.7), // Blue text
                                         ),
                                       ),
                                     ],
@@ -268,13 +273,14 @@ class EnhancedCourseCard extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: color.withOpacity(0.1),
+                                color: AppColors.bblue
+                                    .withOpacity(0.1), // Light blue background
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
                                 Icons.arrow_forward_ios,
                                 size: 14,
-                                color: color,
+                                color: AppColors.bblue, // Blue icon
                               ),
                             ),
                           ],
@@ -301,7 +307,7 @@ class EnhancedCourseCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.offWhite,
                             borderRadius: const BorderRadius.vertical(
                               bottom: Radius.circular(18),
                             ),
@@ -328,13 +334,14 @@ class EnhancedCourseCard extends StatelessWidget {
                                       vertical: 2,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: color.withOpacity(0.1),
+                                      color: AppColors.bblue.withOpacity(
+                                          0.1), // Light blue background
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Text(
                                       "${(course.progress * 100).toInt()}%",
                                       style: TextStyle(
-                                        color: color,
+                                        color: AppColors.bblue, // Blue text
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -349,7 +356,8 @@ class EnhancedCourseCard extends StatelessWidget {
                                     height: 6,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                      color: AppColors.mintGreen,
+                                      color: AppColors.beige.withOpacity(
+                                          0.3), // Light beige background
                                       borderRadius: BorderRadius.circular(3),
                                     ),
                                   ),
@@ -360,7 +368,8 @@ class EnhancedCourseCard extends StatelessWidget {
                                         width: constraints.maxWidth *
                                             course.progress,
                                         decoration: BoxDecoration(
-                                          color: color,
+                                          color: AppColors
+                                              .bblue, // Blue progress bar
                                           borderRadius:
                                               BorderRadius.circular(3),
                                         ),
@@ -380,14 +389,16 @@ class EnhancedCourseCard extends StatelessWidget {
                               Icon(
                                 Icons.access_time,
                                 size: 14,
-                                color: AppColors.darkGray.withOpacity(0.6),
+                                color: AppColors.bblue
+                                    .withOpacity(0.6), // Blue icon
                               ),
                               const SizedBox(width: 4),
                               Text(
                                 "Not started yet",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColors.darkGray.withOpacity(0.6),
+                                  color: AppColors.bblue
+                                      .withOpacity(0.6), // Blue text
                                 ),
                               ),
                             ],

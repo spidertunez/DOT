@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hom/theme/AppColors.dart';
+
 import 'package:hom/screens/instructor_screen.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 class LoadingInstructorScreen extends StatefulWidget {
   const LoadingInstructorScreen({super.key});
@@ -51,9 +52,8 @@ class _LoadingInstructorScreenState extends State<LoadingInstructorScreen>
       if (mounted) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder:
-                (context, animation, secondaryAnimation) =>
-                    const InstructorScreen(),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const InstructorScreen(),
             transitionsBuilder: (
               context,
               animation,

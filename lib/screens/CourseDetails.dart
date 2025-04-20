@@ -1,6 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:hom/theme/Appcolors.dart';
 import 'CoursePage.dart'; // تأكد من أن هذا الملف يحتوي على الثيمات أو الإعدادات المطلوبة
-import '../theme/AppColors.dart';
+
+// Custom Painter for the app bar background pattern
+class CourseDetailPatternPainter extends CustomPainter {
+  final Color color;
+
+  CourseDetailPatternPainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withOpacity(0.05)
+      ..style = PaintingStyle.fill;
+
+    // Draw background pattern circles
+    for (int i = 0; i < 8; i++) {
+      double x = size.width * (i % 4) / 4;
+      double y = size.height * (i ~/ 4) / 2;
+      double radius = (30 + (i * 5)).toDouble();
+      canvas.drawCircle(Offset(x, y), radius, paint);
+    }
+
+    // Draw curved pattern at the bottom
+    final path = Path();
+    path.moveTo(0, size.height - 30);
+    path.quadraticBezierTo(
+      size.width / 2,
+      size.height - 80,
+      size.width,
+      size.height - 30,
+    );
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+
+    final pathPaint = Paint()
+      ..color = Colors.white.withOpacity(0.1)
+      ..style = PaintingStyle.fill;
+    canvas.drawPath(path, pathPaint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
 
 class CourseDetailPage extends StatefulWidget {
   final String title;
@@ -1107,24 +1150,6 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       child: SafeArea(
         child: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              decoration: BoxDecoration(
-                color: AppColors.beige.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                '\$49.99',
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w800,
-                  fontSize: 18,
-                  color: widget.color,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
-            const SizedBox(width: 15),
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
@@ -1203,47 +1228,4 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       ),
     );
   }
-}
-
-// Custom Painter for the app bar background pattern
-class CourseDetailPatternPainter extends CustomPainter {
-  final Color color;
-
-  CourseDetailPatternPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withOpacity(0.05)
-      ..style = PaintingStyle.fill;
-
-    // Draw background pattern circles
-    for (int i = 0; i < 8; i++) {
-      double x = size.width * (i % 4) / 4;
-      double y = size.height * (i ~/ 4) / 2;
-      double radius = (30 + (i * 5)).toDouble();
-      canvas.drawCircle(Offset(x, y), radius, paint);
-    }
-
-    // Draw curved pattern at the bottom
-    final path = Path();
-    path.moveTo(0, size.height - 30);
-    path.quadraticBezierTo(
-      size.width / 2,
-      size.height - 80,
-      size.width,
-      size.height - 30,
-    );
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-
-    final pathPaint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
-      ..style = PaintingStyle.fill;
-    canvas.drawPath(path, pathPaint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

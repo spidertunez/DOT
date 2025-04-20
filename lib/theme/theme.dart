@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hom/theme/AppColors.dart';
+import 'package:hom/theme/Appcolors.dart';
 
 // تحسين نظام الألوان مع تعريف ألوان إضافية للتباين
 class AppTheme {
