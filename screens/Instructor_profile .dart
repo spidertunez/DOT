@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hom/screens/instructor_screen.dart';
 import 'package:hom/theme/Appcolors.dart';
+import 'package:hom/routes/app_routes.dart';
 
 class InstructorProfile extends StatefulWidget {
   const InstructorProfile({super.key});
@@ -361,11 +362,10 @@ class _InstructorProfileState extends State<InstructorProfile> {
                               icon: Icon(Icons.arrow_back_ios_new,
                                   color: AppColors.navyBlue),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            InstructorScreen()));
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  AppRoutes.instructor,
+                                );
                               },
                               tooltip: 'Back to Instructor Screen',
                             ),

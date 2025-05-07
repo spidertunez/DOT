@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hom/onboard/second_screen.dart';
 import 'package:hom/onboard/third_screen.dart';
-
-import '../loginAndSignup/loginScreen.dart';
-import '../loginAndSignup/signupScreen.dart';
-import 'first_screen.dart';
-
+import '../onboard/first_screen.dart';
+import '../routes/app_routes.dart';
 
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({super.key});
@@ -51,15 +48,11 @@ class _OnboardScreenState extends State<OnboardScreen> {
               children: [
                 InkWell(
                   onTap: () {
-                    if (index == 2) {
-                      // Navigate to RegisterScreen when "Register" is clicked
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RegisterScreen(),
-                        ),
-                      );
-                    }
+                    Navigator.pushReplacementNamed(
+                      context,
+                      AppRoutes.signup,
+                      arguments: {'userType': 0},
+                    );
                   },
                   child: Text(
                     index == 2 ? "Register" : "Skip",
@@ -72,19 +65,16 @@ class _OnboardScreenState extends State<OnboardScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    if (index == 2) {
-                      // Navigate to LoginScreen when "Login" is clicked
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
+                    if (index < 2) {
+                      _controller.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeIn,
                       );
                     } else {
-                      _controller.animateToPage(
-                        index + 1,
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.linear,
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.login,
+                        arguments: {'userType': 0},
                       );
                     }
                   },
@@ -123,7 +113,7 @@ class CustomIndicator extends StatelessWidget {
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        color: active ? const Color(0xFF213555) : Colors.grey, // Updated color
+        color: active ? const Color(0xFF213555) : Colors.grey,
       ),
       width: active ? 30 : 10,
       height: 10,

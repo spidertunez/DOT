@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hom/screens/Profile_screen.dart';
 import 'package:hom/screens/HomeScreen.dart';
 import 'package:hom/theme/Appcolors.dart';
+import 'package:hom/routes/app_routes.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -14,23 +15,38 @@ class CustomNavigationBar extends StatelessWidget {
   });
 
   void _handleNavigation(BuildContext context, int index) {
+    
     onTap(index);
 
-    // التنقل إلى الصفحة المناسبة
+    if (index == currentIndex) return;
+
+    String route;
+    Map<String, dynamic>? arguments;
+
     switch (index) {
       case 0: // Home
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
+        route = AppRoutes.home;
+        arguments = {
+          'skipLoading': true
+        }; 
+        break;
+      case 1: // Lessons
+        route = AppRoutes.savedLessons;
         break;
       case 2: // Profile
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ProfileScreen()),
-        );
+        route = AppRoutes.profile;
         break;
+      default:
+        route = AppRoutes.home;
+        arguments = {'skipLoading': true};
     }
+
+
+    Navigator.pushReplacementNamed(
+      context,
+      route,
+      arguments: arguments,
+    );
   }
 
   @override
@@ -71,9 +87,21 @@ class CustomNavigationBar extends StatelessWidget {
           ),
           type: BottomNavigationBarType.fixed,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.book), label: "Lessons"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book_outlined),
+              activeIcon: Icon(Icons.book),
+              label: "Lessons",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              activeIcon: Icon(Icons.person),
+              label: "Profile",
+            ),
           ],
         ),
       ),

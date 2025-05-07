@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hom/models/featured_lesson_model.dart';
-import 'package:hom/screens/CoursePage.dart';
+import 'package:hom/routes/app_routes.dart';
 import 'package:hom/theme/Appcolors.dart';
 
 class FeaturedLessonCard extends StatelessWidget {
@@ -19,6 +19,15 @@ class FeaturedLessonCard extends StatelessWidget {
       default:
         return Colors.blue;
     }
+  }
+
+  List<String> _generateLessonTitles() {
+    // Get the number of lessons from the lessons string (e.g. "9 lessons" -> 9)
+    final lessonCount = int.parse(lesson.lessons.split(' ')[0]);
+    return List.generate(
+      lessonCount,
+      (index) => 'Lesson ${index + 1}: ${lesson.title}',
+    );
   }
 
   @override
@@ -43,19 +52,18 @@ class FeaturedLessonCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-            Navigator.push(
+            Navigator.pushNamed(
               context,
-              MaterialPageRoute(
-                builder: (context) => LessonDetailPage(
-                  title: lesson.title,
-                  subtitle: lesson.title,
-                  lessons: lesson.lessons,
-                  rating: lesson.rating,
-                  icon: lesson.icon,
-                  color: AppColors.navyBlue,
-                  lessonTitles: const [],
-                ),
-              ),
+              AppRoutes.lessonPage,
+              arguments: {
+                'title': lesson.title,
+                'subtitle': lesson.title,
+                'lessons': lesson.lessons,
+                'rating': lesson.rating,
+                'icon': lesson.icon,
+                'color': AppColors.navyBlue,
+                'lessonTitles': _generateLessonTitles(),
+              },
             );
           },
           child: Padding(

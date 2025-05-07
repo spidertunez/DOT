@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../home/home.dart';
-import 'package:hom/loginAndSignup/signupScreen.dart';
+import '../routes/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final int userType;
+
+  const LoginScreen({super.key, required this.userType});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -38,7 +39,8 @@ class _LoginScreenState extends State<LoginScreen>
       _errorMessage = null;
     });
 
-    final url = Uri.parse('https://eba7-197-35-224-52.ngrok-free.app/api/auth/login');
+    final url =
+        Uri.parse('https://eba7-197-35-224-52.ngrok-free.app/api/auth/login');
 
     try {
       final response = await http.post(
@@ -46,34 +48,27 @@ class _LoginScreenState extends State<LoginScreen>
         body: jsonEncode({
           'email': _emailController.text.trim(),
           'password': _passwordController.text,
-          "userType": 2,
+          "userType": widget.userType,
         }),
         headers: {'Content-Type': 'application/json'},
       );
 
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
-
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
-
         final String? token = responseData['token'];
         final String? userId = responseData['userId'];
         final String? userType = responseData['userType'];
 
         if (token != null) {
-          print("Access Token: $token");
-
-          // تخزين البيانات في SharedPreferences
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('access_token', token);
           if (userId != null) await prefs.setString('user_id', userId);
           if (userType != null) await prefs.setString('user_type', userType);
 
-          // الانتقال إلى الشاشة الرئيسية
-          await Navigator.pushReplacement(
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(
             context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            AppRoutes.home,
           );
         } else {
           setState(() {
@@ -86,7 +81,6 @@ class _LoginScreenState extends State<LoginScreen>
         });
       }
     } catch (error) {
-      print("Error occurred: $error");
       setState(() {
         _errorMessage = "Something went wrong. Please try again later.";
       });
@@ -96,7 +90,6 @@ class _LoginScreenState extends State<LoginScreen>
       });
     }
   }
-
 
   @override
   void dispose() {
@@ -118,12 +111,15 @@ class _LoginScreenState extends State<LoginScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Welcome Back!",
-                    style: TextStyle(
-                        fontFamily: 'AbrilFatface',
-                        fontSize: 35,
-                        color: Color(0xFF213555),
-                        fontWeight: FontWeight.bold)),
+                const Text(
+                  "Welcome Back!",
+                  style: TextStyle(
+                    fontFamily: 'AbrilFatface',
+                    fontSize: 35,
+                    color: Color(0xFF213555),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 30),
                 SizedBox(
                   height: 270,
@@ -132,34 +128,16 @@ class _LoginScreenState extends State<LoginScreen>
                 const SizedBox(height: 30),
                 _buildTextField(_emailController, "Email", Icons.email),
                 const SizedBox(height: 10),
-                _buildTextField(_passwordController, "Password", Icons.lock, isPassword: true),
+                _buildTextField(_passwordController, "Password", Icons.lock,
+                    isPassword: true),
                 const SizedBox(height: 10),
-
                 if (_errorMessage != null)
-                  Text(_errorMessage!,
-                      style: const TextStyle(color: Colors.red)),
-
+                  Text(
+                    _errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
                 const SizedBox(height: 20),
                 _buildLoginButton(),
-
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    "I don't have an account? Signup",
-                    style: TextStyle(
-                      color: Color(0xFF213555),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -169,11 +147,8 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Widget _buildTextField(
-      TextEditingController controller,
-      String hint,
-      IconData icon, {
-        bool isPassword = false,
-      }) {
+      TextEditingController controller, String hint, IconData icon,
+      {bool isPassword = false}) {
     return TextField(
       controller: controller,
       obscureText: isPassword,
@@ -199,15 +174,19 @@ class _LoginScreenState extends State<LoginScreen>
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF213555),
           padding: const EdgeInsets.symmetric(vertical: 18),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
         onPressed: _isLoading ? null : _login,
         child: _isLoading
             ? const CircularProgressIndicator(color: Colors.white)
             : const Text(
-          "Login",
-          style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+                "Login",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
       ),
     );
   }

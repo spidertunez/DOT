@@ -3,6 +3,7 @@ import 'package:hom/screens/CourseDetails.dart';
 import 'package:hom/models/learning_path_model.dart';
 import 'package:hom/models/course_model.dart';
 import 'package:hom/theme/Appcolors.dart';
+import 'package:hom/routes/app_routes.dart';
 
 class LearningPathCoursesScreen extends StatelessWidget {
   final String title;
@@ -138,18 +139,17 @@ class LearningPathCoursesScreen extends StatelessWidget {
                     color: AppColors.bblue, // Using bblue as accent color
                     index: index,
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => CourseDetailPage(
-                            title: course.title,
-                            subtitle: course.description,
-                            icon: course.icon,
-                            color:
-                                AppColors.bblue, // Using bblue for detail page
-                            instructor: course.instructor,
-                            progress: course.progress,
-                          ),
-                        ),
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.courseDetails,
+                        arguments: {
+                          'title': course.title,
+                          'subtitle': course.description,
+                          'icon': course.icon,
+                          'color': AppColors.bblue,
+                          'instructor': course.instructor,
+                          'progress': course.progress,
+                        },
                       );
                     });
               },

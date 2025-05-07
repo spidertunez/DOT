@@ -5,6 +5,7 @@ import 'package:hom/models/learning_path_model.dart';
 import 'dart:math' as math;
 
 import 'package:hom/theme/Appcolors.dart';
+import 'package:hom/routes/app_routes.dart';
 
 class LearningPathCard extends StatelessWidget {
   final LearningPathModel path;
@@ -51,19 +52,17 @@ class LearningPathCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
-                // تعديل عنصر onTap في LearningPathCard.dart
-
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => LearningPathCoursesScreen(
-                        title: path.title,
-                        subtitle: path.subtitle,
-                        icon: path.icon,
-                        color: path.color,
-                        courses: path.courses,
-                      ),
-                    ),
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.learningList,
+                    arguments: {
+                      'title': path.title,
+                      'subtitle': path.subtitle,
+                      'icon': path.icon,
+                      'color': path.color,
+                      'courses': path.courses,
+                    },
                   );
                 },
                 child: Padding(

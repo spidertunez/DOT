@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hom/screens/HomeScreen.dart';
-import 'package:hom/animation/animation_controllers.dart';
-import 'package:hom/screens/instructor_loading_screen.dart';
+import 'package:hom/loginAndSignup/loginScreen.dart';
+import 'package:hom/loginAndSignup/signupScreen.dart';
 import 'package:hom/theme/Appcolors.dart';
+import 'package:hom/animation/animation_controllers.dart';
+import 'package:hom/routes/app_routes.dart';
 
 class UserSelectionScreen extends StatefulWidget {
-  const UserSelectionScreen({super.key});
+  final bool isLogin; // جديد هنا 👌
+
+  const UserSelectionScreen({super.key, required this.isLogin});
 
   @override
   State<UserSelectionScreen> createState() => _UserSelectionScreenState();
@@ -21,7 +24,6 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
     super.initState();
     initAnimationControllers();
 
-    // Configure animations
     floatingController.duration = const Duration(milliseconds: 1500);
     floatingController.repeat(reverse: true);
 
@@ -35,29 +37,28 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
     super.dispose();
   }
 
-  void _navigateToHome() {
+  void _navigateToNext() {
     if (_isStudent == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a role to continue'),
-          behavior: SnackBarBehavior.floating,
-        ),
+        const SnackBar(content: Text('Please select a role to continue')),
       );
       return;
     }
+
+    int userType = _isStudent! ? 1 : 2;
 
     setState(() {
       _isAnimating = true;
     });
 
     Future.delayed(const Duration(milliseconds: 500), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => _isStudent!
-              ? const HomeScreen()
-              : const LoadingInstructorScreen(),
-        ),
-      );
+      if (widget.isLogin) {
+        Navigator.pushReplacementNamed(context, AppRoutes.login,
+            arguments: {'userType': userType});
+      } else {
+        Navigator.pushReplacementNamed(context, AppRoutes.signup,
+            arguments: {'userType': userType});
+      }
     });
   }
 
@@ -79,12 +80,10 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 48),
-
-                // App name and tagline
+                // اسم التطبيق وtagline
                 Center(
                   child: Column(
                     children: [
-                      // Animated app name "dot"
                       AnimatedBuilder(
                         animation: nameAnimationController,
                         builder: (context, child) {
@@ -92,9 +91,7 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
                             scale: nameScaleAnimation.value,
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 24,
-                                vertical: 14,
-                              ),
+                                  horizontal: 24, vertical: 14),
                               decoration: BoxDecoration(
                                 color: AppColors.navyBlue,
                                 borderRadius: BorderRadius.circular(18),
@@ -120,7 +117,6 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
                         },
                       ),
                       const SizedBox(height: 16),
-                      // Tagline
                       const Text(
                         "Your learning journey begins here",
                         style: TextStyle(
@@ -135,7 +131,6 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
 
                 const SizedBox(height: 40),
 
-                // Role selection text
                 const Text(
                   "I am a...",
                   style: TextStyle(
@@ -148,76 +143,37 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
 
                 const SizedBox(height: 24),
 
-                // Role selection cards
                 Expanded(
                   child: Row(
                     children: [
-                      // Student card
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isStudent = true;
-                            });
-                          },
-                          child: AnimatedBuilder(
-                            animation: floatingController,
-                            builder: (context, child) {
-                              return Transform.translate(
-                                offset: Offset(
-                                  0,
-                                  _isStudent == true
-                                      ? floatingController.value * 5
-                                      : 0,
-                                ),
-                                child: _RoleCard(
-                                  title: "Student",
-                                  icon: Icons.person,
-                                  description:
-                                      "Access courses, track progress, and connect with instructors",
-                                  isSelected: _isStudent == true,
-                                  mainColor: AppColors.lightBlue,
-                                  accentColor: AppColors.navyBlue,
-                                  isAnimating: _isAnimating,
-                                ),
-                              );
-                            },
+                          onTap: () => setState(() => _isStudent = true),
+                          child: _RoleCard(
+                            title: "Student",
+                            icon: Icons.person,
+                            description:
+                                "Access courses, track progress, and connect with instructors",
+                            isSelected: _isStudent == true,
+                            mainColor: AppColors.lightBlue,
+                            accentColor: AppColors.navyBlue,
+                            isAnimating: _isAnimating,
                           ),
                         ),
                       ),
-
                       const SizedBox(width: 16),
-
-                      // Instructor card
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isStudent = false;
-                            });
-                          },
-                          child: AnimatedBuilder(
-                            animation: floatingController,
-                            builder: (context, child) {
-                              return Transform.translate(
-                                offset: Offset(
-                                  0,
-                                  _isStudent == false
-                                      ? floatingController.value * 5
-                                      : 0,
-                                ),
-                                child: _RoleCard(
-                                  title: "Instructor",
-                                  icon: Icons.school,
-                                  description:
-                                      "Create courses, mentor students, and track engagement",
-                                  isSelected: _isStudent == false,
-                                  mainColor: AppColors.mintGreen,
-                                  accentColor: AppColors.darkGray,
-                                  isAnimating: _isAnimating,
-                                ),
-                              );
-                            },
+                          onTap: () => setState(() => _isStudent = false),
+                          child: _RoleCard(
+                            title: "Instructor",
+                            icon: Icons.school,
+                            description:
+                                "Create courses, mentor students, and track engagement",
+                            isSelected: _isStudent == false,
+                            mainColor: AppColors.mintGreen,
+                            accentColor: AppColors.darkGray,
+                            isAnimating: _isAnimating,
                           ),
                         ),
                       ),
@@ -227,33 +183,23 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
 
                 const SizedBox(height: 32),
 
-                // Continue button
                 AnimatedOpacity(
                   opacity: _isAnimating ? 0.0 : 1.0,
                   duration: const Duration(milliseconds: 300),
-                  child: AnimatedBuilder(
-                    animation: colorAnimation,
-                    builder: (context, child) {
-                      return ElevatedButton(
-                        onPressed: _navigateToHome,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorAnimation.value,
-                          foregroundColor: AppColors.offWhite,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 4,
-                        ),
-                        child: const Text(
-                          "Continue",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
-                    },
+                  child: ElevatedButton(
+                    onPressed: _navigateToNext,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.navyBlue,
+                      foregroundColor: AppColors.offWhite,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                    ),
+                    child: const Text(
+                      "Continue",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
 
@@ -267,7 +213,7 @@ class _UserSelectionScreenState extends State<UserSelectionScreen>
   }
 }
 
-// Role card widget
+// Card الخاصة بالاختيار
 class _RoleCard extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -325,32 +271,29 @@ class _RoleCard extends StatelessWidget {
                       isSelected ? accentColor : accentColor.withOpacity(0.2),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  size: 36,
-                  color: isSelected ? AppColors.offWhite : accentColor,
-                ),
+                child: Icon(icon,
+                    size: 36,
+                    color: isSelected ? AppColors.offWhite : accentColor),
               ),
               const SizedBox(height: 20),
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      isSelected ? accentColor : accentColor.withOpacity(0.8),
-                ),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: isSelected
+                        ? accentColor
+                        : accentColor.withOpacity(0.8)),
               ),
               const SizedBox(height: 12),
               Text(
                 description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 14,
-                  color: isSelected
-                      ? accentColor.withOpacity(0.8)
-                      : accentColor.withOpacity(0.6),
-                ),
+                    fontSize: 14,
+                    color: isSelected
+                        ? accentColor.withOpacity(0.8)
+                        : accentColor.withOpacity(0.6)),
               ),
             ],
           ),

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hom/onboard/onboard_screen.dart';
+import 'package:hom/screens/HomeScreen.dart';
 import 'package:hom/screens/Role_selection_screen.dart';
+import 'package:hom/screens/chatbot.dart';
+import 'package:hom/screens/youtubeList.dart';
 import 'package:hom/splash/splashscreen.dart';
 import 'package:hom/theme/Appcolors.dart';
+import 'package:hom/routes/app_routes.dart';
+import 'AI/survey.dart';
 
 void main() {
   runApp(const CodingLearningApp());
@@ -45,7 +51,8 @@ class CodingLearningApp extends StatelessWidget {
           ),
         ),
       ),
-      home: SplashScreen(),
+      initialRoute: AppRoutes.splash,
+      onGenerateRoute: AppRoutes.onGenerateRoute,
     );
   }
 }

@@ -16,7 +16,12 @@ import 'package:hom/widgets/loading_screen.dart';
 import 'package:hom/models/course_model.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final bool skipLoading;
+
+  const HomeScreen({
+    super.key,
+    this.skipLoading = false,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -110,8 +115,6 @@ class _HomeScreenState extends State<HomeScreen>
       level: 'Intermediate',
     ),
   ];
-
-  // قم بتحديث القائمة _learningPaths في ملف HomeScreen.dart بالتالي:
 
   final List<LearningPathModel> _learningPaths = [
     LearningPathModel(
@@ -395,14 +398,19 @@ class _HomeScreenState extends State<HomeScreen>
 
     _cardAnimationController.repeat(reverse: true);
 
-    // Simulate loading delay
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    });
+    
+    if (widget.skipLoading) {
+      _isLoading = false;
+    } else {
+    
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      });
+    }
   }
 
   // Toggle notifications visibility

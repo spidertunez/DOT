@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hom/theme/Appcolors.dart';
+import 'package:hom/routes/app_routes.dart';
 import 'CoursePage.dart'; // تأكد من أن هذا الملف يحتوي على الثيمات أو الإعدادات المطلوبة
 
 // Custom Painter for the app bar background pattern
@@ -217,7 +218,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       stretch: true,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.offWhite),
-        onPressed: () => Navigator.pop(context),
+        onPressed: () => AppRoutes.goBack(context),
       ),
       actions: [
         IconButton(
@@ -1173,32 +1174,32 @@ class _CourseDetailPageState extends State<CourseDetailPage>
 
                     // الانتظار قليلاً ثم الانتقال إلى صفحة الكورس
                     Future.delayed(const Duration(milliseconds: 1500), () {
-                      Navigator.push(
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => CoursePage(
-                            title: widget.title,
-                            subtitle: widget.subtitle,
-                            icon: widget.icon,
-                            color: widget.color,
-                            lessonTitles: const [], // Adding empty list for lessonTitles
-                          ),
-                        ),
+                        AppRoutes.coursePage,
+                        arguments: {
+                          'title': widget.title,
+                          'subtitle': widget.subtitle,
+                          'icon': widget.icon,
+                          'color': widget.color,
+                          'lessonTitles':
+                              const [], // Adding empty list for lessonTitles
+                        },
                       );
                     });
                   } else {
                     // إذا كان المستخدم مسجل بالفعل، الانتقال مباشرة إلى صفحة الكورس
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => CoursePage(
-                          title: widget.title,
-                          subtitle: widget.subtitle,
-                          icon: widget.icon,
-                          color: widget.color,
-                          lessonTitles: const [], // Adding empty list for lessonTitles
-                        ),
-                      ),
+                      AppRoutes.coursePage,
+                      arguments: {
+                        'title': widget.title,
+                        'subtitle': widget.subtitle,
+                        'icon': widget.icon,
+                        'color': widget.color,
+                        'lessonTitles':
+                            const [], // Adding empty list for lessonTitles
+                      },
                     );
                   }
                 },
